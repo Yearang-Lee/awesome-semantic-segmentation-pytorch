@@ -22,7 +22,7 @@ from core.utils.distributed import *
 from core.utils.logger import setup_logger
 from core.utils.lr_scheduler import WarmupPolyLR
 from core.utils.score import SegmentationMetric
-from core.models.lcn import LocalContextNorm
+from core.models.lcn import LocalContextNorm  ######### add
 
 
 def parse_args():
@@ -94,7 +94,7 @@ def parse_args():
                         help='run validation every val-epoch')
     parser.add_argument('--skip-val', action='store_true', default=False,
                         help='skip validation during training')
-    parser.add_argument('--bn', action='store_true', default=False)
+    parser.add_argument('--bn', action='store_true', default=False)  ######### add
     args = parser.parse_args()
 
     # default settings for epochs, batch_size and lr
@@ -155,6 +155,7 @@ class Trainer(object):
                                           pin_memory=True)
 
         # create network
+        ######### add-start #########
         if args.bn:
             BatchNorm2d = nn.SyncBatchNorm if args.distributed else nn.BatchNorm2d
 
@@ -163,6 +164,7 @@ class Trainer(object):
         else:
             self.model = get_segmentation_model(model=args.model, dataset=args.dataset, backbone=args.backbone,
                                                 aux=args.aux, jpu=args.jpu, norm_layer=LocalContextNorm).to(self.device)
+        ######### add-end #########
 
         # resume checkpoint if needed
         if args.resume:
