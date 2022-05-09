@@ -22,6 +22,7 @@ from core.utils.distributed import *
 from core.utils.logger import setup_logger
 from core.utils.lr_scheduler import WarmupPolyLR
 from core.utils.score import SegmentationMetric
+from core.models.lcn import LocalContextNorm
 
 
 def parse_args():
@@ -153,9 +154,12 @@ class Trainer(object):
                                           pin_memory=True)
 
         # create network
-        BatchNorm2d = nn.SyncBatchNorm if args.distributed else nn.BatchNorm2d
+        # BatchNorm2d = nn.SyncBatchNorm if args.distributed else nn.BatchNorm2d
+
+        # self.model = get_segmentation_model(model=args.model, dataset=args.dataset, backbone=args.backbone,
+        #                                     aux=args.aux, jpu=args.jpu, norm_layer=BatchNorm2d).to(self.device)
         self.model = get_segmentation_model(model=args.model, dataset=args.dataset, backbone=args.backbone,
-                                            aux=args.aux, jpu=args.jpu, norm_layer=BatchNorm2d).to(self.device)
+                                            aux=args.aux, jpu=args.jpu, norm_layer=LocalContextNorm).to(self.device)
 
         # resume checkpoint if needed
         if args.resume:

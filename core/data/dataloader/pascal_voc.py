@@ -34,7 +34,7 @@ class VOCSegmentation(SegmentationDataset):
     >>>     trainset, 4, shuffle=True,
     >>>     num_workers=4)
     """
-    BASE_DIR = 'VOC2012'
+    BASE_DIR = 'VOC2007'
     NUM_CLASS = 21
 
     def __init__(self, root='../datasets/voc', split='train', mode=None, transform=None, **kwargs):
