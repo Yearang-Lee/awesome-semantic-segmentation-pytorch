@@ -4,3 +4,4 @@ from .resnetv1b import *
 from .vgg import *
 from .eespnet import *
 from .xception import *
+from .resnet_gn import *  #### add

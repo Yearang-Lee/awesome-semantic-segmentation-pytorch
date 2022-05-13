@@ -110,5 +110,6 @@ def get_segmentation_model(model, **kwargs):
         'espnet': get_espnet,
         'lednet': get_lednet,
         'dfanet': get_dfanet,
+
     }
     return models[model](**kwargs)
